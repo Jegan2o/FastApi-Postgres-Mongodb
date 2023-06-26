@@ -10,7 +10,6 @@ app = FastAPI()
 models.Base.metadata.create_all(bind=engine)
 
 class ProfileBase(BaseModel):
-    # user_id: int
     profile_image: Optional[str] = None
 
 class ProfileCreate(ProfileBase):
@@ -19,12 +18,6 @@ class ProfileCreate(ProfileBase):
 class ProfileUpdate(ProfileBase):
     pass
 
-# class Profile(ProfileBase):
-#     id: int
-#     user_id: int
-
-#     class Config:
-#         orm_mode = True
 
 class UserBase(BaseModel):
     username: str
@@ -84,11 +77,7 @@ def create_user(user: UserCreate, db: Session = Depends(get_db)):
     return db_user
 
 
-# get all users
 
-# @app.get("/users/", response_model=List[User])
-# def list_users(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
-#     return db.query(models.User).offset(skip).limit(limit).all()
 
 
 @app.get("/users/", response_model=List[dict])
@@ -120,31 +109,7 @@ def list_users(db: Session = Depends(get_db)):
     return user_list
 
 
-# @app.get("/users/{user_id}", response_model=User)
-# def get_user(user_id: int, db: Session = Depends(get_db)):
-#     return db.query(models.User).filter(models.User.id == user_id).first()
 
-
-# @app.put("/users/{user_id}", response_model=User)
-# def update_user(user_id: int, user: UserUpdate,db: Session = Depends(get_db)):
-#     db_user = db.query(models.User).filter(models.User.id == user_id).first()
-#     if db_user:
-#         user_data = user.dict(exclude_unset=True, exclude={"profile"})
-#         for field, value in user_data.items():
-#             setattr(db_user, field, value)
-#         # if user.profile:
-#         #     if db_user.profile:
-#         #         db.query(models.Profile).filter(models.Profile.id == db_user.profile.id).update(user.profile.dict())
-#         #     else:
-#         #         db_profile = models.Profile(**user.profile.dict())
-#         #         db_user.profile = db_profile
-#         # else:
-#         #     if db_user.profile:
-#         #         db.delete(db_user.profile)
-#         #         db_user.profile = None
-#         db.commit()
-#         db.refresh(db_user)
-#     return db_user
 
 
 
@@ -178,19 +143,6 @@ def update_user(user_id: int, user: UserUpdate, db: Session = Depends(get_db)):
 
 
 
-
-
-
-# @app.delete("/users/{user_id}")
-# def delete_user(user_id: int,db: Session = Depends(get_db)):
-#     db_user = db.query(models.User).filter(models.User.id == user_id).first()
-#     if db_user:
-#         # if db_user.profile:
-#         #     db.delete(db_user.profile)
-#         db.delete(db_user)
-#         db.commit()
-#         return True
-#     return False
 
 @app.delete("/users/{user_id}")
 def delete_user(user_id: int, db: Session = Depends(get_db)):

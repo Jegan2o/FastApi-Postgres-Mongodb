@@ -1,5 +1,4 @@
-from sqlalchemy import Boolean, Column, ForeignKey, Integer, String
-from sqlalchemy.orm import relationship
+from sqlalchemy import Boolean, Column, Integer, String
 from database import Base
 
 class User(Base):
@@ -13,18 +12,3 @@ class User(Base):
     is_active = Column(Boolean,default=True)
     is_superuser = Column(Boolean,default=False)
 
-#     profile = relationship("Profile",back_populates="user",uselist=False, cascade="all, delete-orphan")
-
-# class Profile(Base):
-#     __tablename__ = 'profiles'
-
-#     id = Column(Integer,primary_key=True)
-#     user_id = Column(Integer,ForeignKey("users.id"))
-#     # store profile image in database
-#     profile_image = Column(String,index=True)
-
-#     user = relationship("User",back_populates="profile",uselist=False)
-
-'''
-MongoDB model for store profile image'''
-# class ProfileImage(Base):
